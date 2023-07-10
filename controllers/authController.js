@@ -5,7 +5,7 @@ const {removeCookiesFromResponse,attachCookiesToResponse, createTokenUser} = req
 
 const register = async (req, res) => {
 
-    const {name, email, password} = req.body
+    const {name, email, password, role} = req.body
 
     const emailAlreadyExists = await User.findOne({email})
 
@@ -14,9 +14,10 @@ const register = async (req, res) => {
         throw new CustomError.BadRequestError(`Email ${email} already exists`)
     }
 
+
     const isFirstAccount = await User.countDocuments({}) === 0
-    const role = isFirstAccount ? 'admin':'user'
-    const user = await User.create({name, email, password,role})
+    const newRole = isFirstAccount ? 'admin': role
+    const user = await User.create({name, email, password,role: newRole})
     const tokenUser = createTokenUser({user})
 
     attachCookiesToResponse({res, user: tokenUser})
