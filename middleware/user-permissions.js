@@ -19,6 +19,14 @@ const checkPermissions = (...roles) => {
                 throw new CustomError.ForbidenAccessError('Not owner of the modified resource')
     
             }
+
+            if (req.user.role === 'user' && (req.user.userId !== req.params.id)) {
+
+
+                throw new CustomError.ForbidenAccessError('Not owner of the modified resource')
+    
+            }
+
     
         }
 

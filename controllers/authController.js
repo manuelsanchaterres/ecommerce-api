@@ -21,7 +21,7 @@ const register = async (req, res) => {
 
     attachCookiesToResponse({res, user: tokenUser})
 
-    // res.status(StatusCodes.CREATED).json({user:tokenUser})
+    res.status(StatusCodes.CREATED).json({user:tokenUser})
 
 }
 
