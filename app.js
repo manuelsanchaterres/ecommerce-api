@@ -51,6 +51,7 @@ app.use(rateLimiter({
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET))
+app.use(express.static('./public'));
 
 // security packages
 
@@ -63,7 +64,7 @@ app.use(mongoSanitize())
 
 const swaggerUI = require('swagger-ui-express')
 const YAML = require('yamljs')
-const swaggerDocument = YAML.load('./swagger.yaml')
+const swaggerDocument = YAML.load('./public/swagger.yaml')
 
 // Basic Routes and Middleware
 
@@ -72,13 +73,13 @@ app.use(expressFileUpload({
     // safeFileNames: true
 }))
 
-app.get('/', (req,res) => {
+// app.get('/', (req,res) => {
 
-    res.send('<h2>Ecommerce API</h2><a href="/api-docs">Documentation<a/>')
+//     res.send('<h2>Ecommerce API</h2><a href="/api-docs">Documentation<a/>')
 
-})
+// })
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 
 app.use('/api/v1/auth', authRouter)
