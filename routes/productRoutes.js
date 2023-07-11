@@ -11,22 +11,22 @@ const authenticateUser = require('../middleware/authentication')
 const { checkPermissions } = require('../middleware/user-permissions')
 const { uploadImageLocal, uploadImageCloudinary } = require('../controllers/uploadImagesController')
 const { getSingleProductReviews } = require('../controllers/reviewController')
-
+const testUser = require('../middleware/testUser')
 
 router
 .route('/')
 .get(getAllProducts)
-.post(authenticateUser,checkPermissions('admin'), createProduct)
+.post(authenticateUser,testUser,checkPermissions('admin'), createProduct)
 
 router
 .route('/uploadImage')
-.post(authenticateUser,checkPermissions('admin'),uploadImageCloudinary)
+.post(authenticateUser,testUser,checkPermissions('admin'),uploadImageCloudinary)
 
 router
 .route('/:id')
 .get(getSingleProduct)
-.patch(authenticateUser,checkPermissions('admin'),updateProduct)
-.delete(authenticateUser,checkPermissions('admin'),deleteProduct)
+.patch(authenticateUser,testUser,checkPermissions('admin'),updateProduct)
+.delete(authenticateUser,testUser,checkPermissions('admin'),deleteProduct)
 
 router
 .route('/:id/reviews')

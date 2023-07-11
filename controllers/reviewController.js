@@ -43,7 +43,7 @@ const getAllReviews = async(req,res) => {
 
     if (!reviews) {
 
-        throw new CustomError.NotFoundError(`Product Reviews for Product ${req.params.productId} Not Found`)
+        throw new CustomError.NotFoundError(`Product Reviews Not Found`)
 
     }
 

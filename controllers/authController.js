@@ -5,7 +5,7 @@ const {removeCookiesFromResponse,attachCookiesToResponse, createTokenUser} = req
 
 const register = async (req, res) => {
 
-    const {name, email, password, role} = req.body
+    const {name, email, password} = req.body
 
     const emailAlreadyExists = await User.findOne({email})
 
@@ -16,8 +16,8 @@ const register = async (req, res) => {
 
 
     const isFirstAccount = await User.countDocuments({}) === 0
-    const newRole = isFirstAccount ? 'admin': role
-    const user = await User.create({name, email, password,role: newRole})
+    const role = isFirstAccount ? 'admin': 'user'
+    const user = await User.create({name, email, password,role})
     const tokenUser = createTokenUser({user})
 
     attachCookiesToResponse({res, user: tokenUser})
@@ -54,12 +54,14 @@ const login = async (req, res) => {
     const tokenUser = createTokenUser({user})
     attachCookiesToResponse({res, user: tokenUser})
 
-    // res.send('login controller')
+    res.status(StatusCodes.OK).json({user:tokenUser})
+    
 }
 
 const logout = async (req, res) => {
 
     removeCookiesFromResponse({res})
+
     res.send('logout controller')
 }
 

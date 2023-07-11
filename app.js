@@ -25,7 +25,7 @@ const rateLimiter = require('express-rate-limit')
 const helmet = require('helmet')
 const xss = require('xss-clean')
 const cors = require('cors')
-const mongoSanitize = require('express-mongo-sanitize')
+const mongoSanitize = require('express-mongo-sanitize');
 
 // USE V2
 
@@ -57,7 +57,6 @@ app.use(cookieParser(process.env.JWT_SECRET))
 
 // Basic Routes and Middleware
 
-app.use(express.static('./public'));
 app.use(expressFileUpload({
     useTempFiles: true,
     // safeFileNames: true
@@ -65,12 +64,10 @@ app.use(expressFileUpload({
 
 app.get('/', (req,res) => {
 
-    res.send('<h2>Ecommerce Api</h2>')
+    res.send('<h2><a href="https://documenter.getpostman.com/view/24954660/2s946bBus6">Ecommerce API<a/></h2>')
+
 })
 
-app.get('/api/v1', (req,res) => {
-    res.send('<h2>Ecommerce Api</h2>')
-})
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/users',authenticateUser, userRouter)

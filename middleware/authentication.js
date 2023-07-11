@@ -13,7 +13,8 @@ const authenticateUser = async (req,res,next) => {
     try {
         
         const payload = isTokenValid({token})
-        req.user = {name: payload.name, userId: payload.userId, role: payload.role}
+        const testUser = payload.userId === '64ad37047131ed7e6e70f9d7';
+        req.user = {name: payload.name, userId: payload.userId, role: payload.role, testUser}
 
         next()
     
