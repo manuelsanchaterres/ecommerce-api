@@ -39,6 +39,7 @@ cloudinary.config({
   
 
 // request body format express middleware
+
 app.set('trust proxy', 1);
 app.use(rateLimiter({
 
@@ -47,13 +48,22 @@ app.use(rateLimiter({
 
 }))
 
+app.use(morgan('dev'))
+app.use(express.json())
+app.use(cookieParser(process.env.JWT_SECRET))
+
+// security packages
+
 app.use(helmet())
 app.use(cors())
 app.use(xss())
 app.use(mongoSanitize())
-app.use(morgan('dev'))
-app.use(express.json())
-app.use(cookieParser(process.env.JWT_SECRET))
+
+// swagger
+
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs')
+const swaggerDocument = YAML.load('./swagger.yaml')
 
 // Basic Routes and Middleware
 
@@ -64,9 +74,11 @@ app.use(expressFileUpload({
 
 app.get('/', (req,res) => {
 
-    res.send('<h2><a href="https://documenter.getpostman.com/view/24954660/2s946bBus6">Ecommerce API<a/></h2>')
+    res.send('<h2>Ecommerce API</h2><a href="/api-docs">Documentation<a/>')
 
 })
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 
 app.use('/api/v1/auth', authRouter)
